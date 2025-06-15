@@ -1,58 +1,112 @@
-# sv
+# FASTA Validation Tool
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A web application for validating and analyzing FASTA sequence files, built with Svelte and HyPhy.
 
-## Creating a project
+## Installation and Setup
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+git clone https://github.com/stevenweaver/fasta-validation.git
+cd fasta-validation
 ```
 
-## Developing
+2. Install dependencies
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Start the development server
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# or
+yarn dev
 ```
 
-## Building
+4. Open your browser and navigate to `http://localhost:5173`
 
-To create a production version of your app:
+## Usage
+
+The application allows you to:
+- Upload and validate FASTA sequence files
+- Run various analyses on sequence data
+- Visualize analysis results
+- Export results in multiple formats
+
+All data is stored locally in your browser using IndexedDB.
+
+## Building for Production
+
+To create a production build:
 
 ```bash
 npm run build
+# or
+yarn build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-# alignment-validation
+```bash
+npm run preview
+# or
+yarn preview
+```
 
 ## Environment Configuration
 
 This application uses environment variables for configuration:
 
-- `VITE_PAGES_URL`: URL for the visualization iframes (defaults to `//localhost:3000/pages` in development)
+- `VITE_PAGES_URL`: URL for visualization iframes (defaults to `//localhost:3000/pages` in development)
+- `VITE_HYPHY_EYE_URL`: URL for the HyPhy Eye visualization server (defaults to `http://localhost:3000` in development)
 
-### Deployment Notes
+You can create a `.env` file in the project root to set these variables:
+
+```
+VITE_PAGES_URL=//your-visualization-server.com/pages
+VITE_HYPHY_EYE_URL=https://your-hyphy-eye-server.com
+```
+
+## Storage
 
 The application uses browser-based IndexedDB storage for persisting files and analysis results.
-This means data is stored locally in the user's browser.
+This means data is stored locally in the user's browser and is not sent to any server.
 
-## Adding New Visualization Methods
+## Testing
+
+Run the test suite with:
+
+```bash
+npm run test
+# or
+yarn test
+```
+
+## Development
+
+### Adding New Visualization Methods
 
 To add new visualization methods:
 
 1. Update the method list in `src/lib/AnalysisResultViewer.svelte`
-2. Ensure the corresponding visualization is available at `${VITE_PAGES_URL}/${methodName}`
-3. The iframe communicates with the parent window via `postMessage`
+2. Add a method configuration in `src/lib/config/methodOptions.toml`
+3. Ensure the visualization is available in HyPhy Eye
+
+### Project Structure
+
+- `src/lib` - Svelte components and utilities
+- `src/routes` - SvelteKit routes
+- `src/stores` - Svelte stores for state management
+- `src/lib/utils` - Utility functions including IndexedDB storage
+- `static` - Static assets and test data
